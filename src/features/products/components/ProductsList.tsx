@@ -2,10 +2,10 @@
 
 import { useEffect } from "react";
 import useDealsList from "../hooks/useDealsList";
-import Skeleton from "../../../components/ui/Skeleton";
-import Review from "../../../components/ui/Review";
+import Skeleton from "@/components/ui/Skeleton";
+import Review from "@/components/ui/Review";
 import { ProductListProps } from "@/utils/interface/ProductList";
-import usePageSeo from "@/utils/interface/hooks/usePageSeo";
+import usePageSeo from "@/hooks/usePageSeo";
 import { usePathname } from "next/navigation";
 
 const ProductsList = (initialProducts: Array<ProductListProps>) => {
