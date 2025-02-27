@@ -3,9 +3,9 @@ import axios, { AxiosResponse } from 'axios';
 import { ProductListProps } from '@/utils/interface/ProductList';
 
 
-const fetchProducts = async (callType: string, record: number) => {
+const fetchProducts = async (callType: string, record: number): Promise<ProductListProps | []> => {
     try {
-        const result: AxiosResponse<ProductListProps> = await axios.get<ProductListProps>(`/deals?callType=${callType}&record=${record}`);
+        const result: AxiosResponse<ProductListProps> = await axios.get<ProductListProps>(`/api/products/deals?callType=${callType}&record=${record}`);
         if (result.status === 200) {
             return result.data;
         } else {

@@ -1,8 +1,8 @@
 import { useReducer } from "react";
-import { ProductListProps } from "../../../utils/Types";
-import { dealsListService } from "../services/dealListServices";
-import { GET_DEALS } from "../../../utils/Constants";
-import CommonReducer from "../../../hooks/reducer/CommonReducer";
+import { ProductListProps } from "@/utils/interface/ProductList";
+import CommonReducer from "./reducer/CommonReducer";
+import { GET_DEALS } from "@/utils/constants";
+import { fetchProducts } from "@/services/productServices";
 
 
 const useDealsList = (initState: Array<ProductListProps>) => {
@@ -10,7 +10,7 @@ const useDealsList = (initState: Array<ProductListProps>) => {
     const [state, dispatch] = useReducer(CommonReducer, initState);
 
     const dealsList = async (callType: string, record: number) => {
-        const result = await dealsListService(callType, record);
+        const result = await fetchProducts(callType, record);
         dispatch({ type: GET_DEALS, content: result });
     }
 

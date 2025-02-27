@@ -1,30 +1,35 @@
-import { useEffect, useState, useContext, useRef } from 'react'
+'use client'
+import { useEffect, useState, useRef } from 'react'
 import { Transition } from '@headlessui/react'
 import Link from 'next/link';
 import { useAdminContext } from '../features/authentication/hooks/useAdminContext';
-import logo from 'images/db_logo.svg'
-import SignupWithGoogleDialog from '../features/users/signup/component/SignupWithGoogleDialog';
+import logo from 'images/db_logo.svg';
+import default_avatar from 'images/default-avatar.svg'
+// import SignupWithGoogleDialog from '../features/users/signup/component/SignupWithGoogleDialog';
 import { useUserContext } from '../features/authentication/hooks/useUserContext';
-import { DbContext } from "../providers/DBProvider";
-import { UserInfo } from '../type/UserType';
+// import { DbContext } from "../providers/DBProvider";
+// import { UserInfo } from '../type/UserType';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { UserInfo } from '@/utils/types/userInfoType';
 
 type Props = {
     onSubscribe: () => void
 }
 
-const Header = (props: Props) => {
+// const Header = (props: Props) => {
+const Header = () => {
+
     const [isOpen, setIsOpen] = useState(false);
     const adminAuth = useAdminContext();
     const userAuth = useUserContext();
     const [profileDropdown, setProfileDropdown] = useState(false);
-    const [signUpDialog, setSignupDialog] = useState(false);
+    // const [signUpDialog, setSignupDialog] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState<UserInfo>();
     const navigate = useRouter();
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-    const localDb = useContext(DbContext)
+    // const localDb = useContext(DbContext)
 
 
     const toggleDropdown = (menuType: string) => {
@@ -37,25 +42,25 @@ const Header = (props: Props) => {
         }
     };
 
-    const onSignupDialogCancel = () => {
-        setSignupDialog(false);
-    }
+    // const onSignupDialogCancel = () => {
+    //     setSignupDialog(false);
+    // }
 
-    useEffect(() => {
-        const fetchUserSchema = async () => {
-            const userSchema = await userAuth.setUserSchema();
-            if (userSchema) {
-                const subscription = userSchema.userToken.findOne().$.subscribe((user) => {
-                    if (user) {
-                        setLoggedInUser(user);
-                    }
-                });
+    // useEffect(() => {
+    //     const fetchUserSchema = async () => {
+    //         const userSchema = await userAuth.setUserSchema();
+    //         if (userSchema) {
+    //             const subscription = userSchema.userToken.findOne().$.subscribe((user) => {
+    //                 if (user) {
+    //                     setLoggedInUser(user);
+    //                 }
+    //             });
 
-                return () => subscription.unsubscribe();
-            }
-        };
-        fetchUserSchema();
-    }, [localDb?.db]);
+    //             return () => subscription.unsubscribe();
+    //         }
+    //     };
+    //     fetchUserSchema();
+    // }, [localDb?.db]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -160,7 +165,7 @@ const Header = (props: Props) => {
                                     <Link
                                         href="#"
                                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                        onClick={() => props.onSubscribe()}
+                                        onClick={() => "props.onSubscribe()"}
                                     >
                                         Subscribe
                                     </Link>
@@ -195,7 +200,8 @@ const Header = (props: Props) => {
                                 onClick={() => toggleDropdown('profile')}
                             >
                                 <span className="sr-only">Open user menu</span>
-                                <Image className="w-8 h-8 rounded-full" src={loggedInUser?.photoURL} alt="user photo" />
+                                <Image className="w-8 h-8 rounded-full"
+                                    src={loggedInUser?.photoURL || default_avatar} alt="user photo" />
                             </button>
                             :
                             <button type="button"
@@ -322,7 +328,7 @@ const Header = (props: Props) => {
                             <Link
                                 href="#"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                onClick={() => props.onSubscribe()}
+                                onClick={() => "props.onSubscribe()"}
                             >
                                 Subscribe
                             </Link>
@@ -370,7 +376,7 @@ const Header = (props: Props) => {
                 </div>
             </main> */}
 
-        {signUpDialog && (<SignupWithGoogleDialog onCancel={() => onSignupDialogCancel()} />)}
+        {/* {signUpDialog && (<SignupWithGoogleDialog onCancel={() => onSignupDialogCancel()} />)} */}
     </>)
 }
 

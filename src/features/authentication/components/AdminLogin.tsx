@@ -4,8 +4,8 @@ import Button from "../../../components/ui/Button";
 import { useAdminContext } from "../hooks/useAdminContext";
 import Alert from "../../../components/ui/Alert";
 import { toast } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
 import SignInWithGoogle from "./SignInWithGoogle";
+import { useRouter } from "next/router";
 
 const AdminLogin = () => {
     const [input, setInput] = useState({
@@ -16,7 +16,7 @@ const AdminLogin = () => {
     const [error, setError] = useState('');
     const auth = useAdminContext();
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate()
+    const navigate = useRouter()
 
     const handleInput: React.ChangeEventHandler<HTMLInputElement> = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -43,7 +43,7 @@ const AdminLogin = () => {
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token)
-            navigate("/dashboard");
+            navigate.push("/dashboard");
     }, [])
 
     return (

@@ -1,8 +1,8 @@
 import { createContext, useState } from "react"
-import { useNavigate } from "react-router-dom";
-import { LayoutProps } from "../../../utils/Types";
 import { useAdminAuth } from "../hooks/useAdminAuth";
 import { toast } from "react-toastify";
+import { LayoutProps } from "@/utils/types/commonTypes";
+import { useRouter } from "next/router";
 //import useUrlAuth from "../../../hooks/useUrlAuth";
 
 const defaultValues = {
@@ -25,7 +25,7 @@ const AdminAuthProvider = ({ children }: LayoutProps) => {
     const [user, setUser] = useState<string>('');
     const [token, setToken] = useState<string>(localStorage.getItem('token') as string);
     const [alertMsg, setAlert] = useState<string>('')
-    const navigate = useNavigate();
+    const router = useRouter();
     const [authenticate, removeToken] = useAdminAuth();
 
     const loginAction = async (data: { email: string, password: string }) => {
@@ -38,7 +38,7 @@ const AdminAuthProvider = ({ children }: LayoutProps) => {
 
             setToken(response as string)
             localStorage.setItem("token", response as string)
-            navigate("/dashboard")
+            router.push("/dashboard")
         } catch (err) {
             if (err instanceof Error) {
                 setAlert(err.message as string)
@@ -51,7 +51,7 @@ const AdminAuthProvider = ({ children }: LayoutProps) => {
         setToken('');
         localStorage.removeItem("token");
         removeToken()
-        navigate("/login");
+        router.push("/login");
         toast("Logged out successfully");
     }
 
