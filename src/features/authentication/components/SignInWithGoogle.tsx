@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useUserContext } from '../hooks/useUserContext';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { BehaviorSubject } from 'rxjs';
+import { useRouter } from 'next/router';
 
 const userLoggedInFlag = new BehaviorSubject<boolean>(false)
 
@@ -9,8 +9,7 @@ const userLoggedInFlag = new BehaviorSubject<boolean>(false)
 const SignInWithGoogle = () => {
     const [isLoading, setIsLoading] = useState(false);
     const userAuth = useUserContext();
-    const location = useLocation();
-    const navigate = useNavigate();
+    const router = useRouter();
 
     const signIn = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -19,10 +18,10 @@ const SignInWithGoogle = () => {
         if (result) {
             //const redirectTo = new URLSearchParams(location.pathname).get('redirect');
 
-            if (location.pathname === '/login') {
-                navigate('/');
+            if (router.pathname === '/login') {
+                router.push('/');
             } else {
-                navigate(location.pathname || '/');
+                router.push(router.pathname || '/');
                 userLoggedInFlag.next(true);
             }
             //window.location.reload();

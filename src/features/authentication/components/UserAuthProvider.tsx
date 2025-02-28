@@ -25,19 +25,17 @@ const defaultValue = {
 export const UserAuthContext = createContext<AuthContextType>(defaultValue);
 
 const UserAuthProvider = ({ children }: LayoutProps) => {
-    // const [token, setToken] = useState<string>(localStorage.getItem('token') as string);
     const [userInfo, setUserInfo] = useState<UserToken>(() => {
         const storedUserToken = localStorage.getItem('loggedInUser')
         return storedUserToken ? JSON.parse(storedUserToken) as UserToken : {} as UserToken
     });
     const router = useRouter();
-    const [isUserValid, addLoggedInUser] = useUsersAuth();
 
     const signIn = async (): Promise<boolean> => {
         try {
             const userObject = await signInWithGoogle();
             if (userObject) {
-                const dbResponse = await addLoggedInUser(userObject.user);
+
                 if (dbResponse === true) {
                     const userInfoObj: UserToken = {
                         accessToken: "token",

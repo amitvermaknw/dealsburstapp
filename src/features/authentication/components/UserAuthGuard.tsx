@@ -1,16 +1,15 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+'use client'
+import { useRouter } from 'next/router';
 
-function UserAuthGuard({ children }: { children: React.ReactNode }) {
-    const location = useLocation();
-    const navigate = useNavigate();
+export function UserAuthGuard({ children }: { children: React.ReactNode }) {
+    const router = useRouter();
 
     // Assume you have an `isAuthenticated` variable that checks if the user is logged in
-    if (!isAuthenticated) {
-        // Store the current location in the state or a query parameter
-        const currentPath = location.pathname + location.search;
-        navigate(`/login?redirect=${encodeURIComponent(currentPath)}`);
-        return null; // Prevent rendering the protected page
-    }
+    // if (!isAuthenticated) {
+    //     // Store the current location in the state or a query parameter
+    //     router.push(`/login?redirect=${encodeURIComponent(router.pathname)}`);
+    //     return null; // Prevent rendering the protected page
+    // }
 
     return <>{children}</>;
 }

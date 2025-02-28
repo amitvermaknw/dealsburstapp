@@ -1,6 +1,10 @@
 import { adminAuth } from "@/lib/firebaseAdmin";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import axios, { AxiosResponse } from "axios";
+
+
+const baseUrl = process.env.NODE_ENV === 'development' ? process.env.DEALSBURST_SERVICE_LOCAL : process.env.DEALSBURST_SERVICE_PROD;
 
 export async function POST(req: NextRequest) {
     try {
@@ -15,9 +19,16 @@ export async function POST(req: NextRequest) {
             maxAge: 60 * 60 * 27 * 7,
             path: "/"
         });
-        return NextResponse.json({ success: true, user: decodeToken });
+
+        let loggedUserInfo = false;
+        const result: AxiosResponse<{ msg: string }> = await axios.post<{ msg: string }>(`${baseUrl}/users/signup`, req.json());
+        if (result.status === 200) {
+            loggedUserInfo = true
+        }
+
+        return NextResponse.json({ staus: 200, userToken: decodeToken, loggedUserInfo: loggedUserInfo });
 
     } catch (error) {
-        return NextResponse.json({ success: false, error: error }, { status: 401 })
+        return NextResponse.json({ status: 401, error: error })
     }
 } 
