@@ -5,8 +5,15 @@ export async function middleware(req: NextRequest) {
 
     console.log(`Middleware Intercepting: ${pathname}`);
 
+    const session = req.cookies.get("user_session");
+
+    if (pathname.startsWith("/api/dashboard") && !session) {
+        return NextResponse.redirect(new URL("/login", req.url))
+    }
+
     if (pathname.startsWith("/api/")) {
         const token = req.headers.get("authorixaation");
+
 
         if (!token) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

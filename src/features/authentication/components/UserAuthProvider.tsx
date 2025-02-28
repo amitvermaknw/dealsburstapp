@@ -1,18 +1,12 @@
-import { createContext, useContext, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom";
-import { LayoutProps } from "../../../utils/Types";
-import { auth, googleProvider } from '../../../services/googleAuthProvider';
-import { signInWithPopup } from 'firebase/auth';
+import { createContext, useState } from "react"
 import { toast } from 'react-toastify';
 import { useUsersAuth } from '../hooks/useUsersAuth';
-import { DbContext } from "../../../providers/DBProvider";
-import { userTokenSchema } from "../../../schema/userTokenSchema";
 import { UserToken } from "../Interface/userTokenInterface";
-import { RxDatabase } from 'rxdb';
 import localForage from 'localforage';
-import { AuthContextType } from "../../../Interface/UserTokenInterface";
-
-
+import { useRouter } from "next/router";
+import { signInWithGoogle } from "@/services/googleAuthProvider";
+import { AuthContextType } from "../Interface/AuthContextType";
+import { LayoutProps } from "@/utils/types/CommonTypes";
 
 const defaultValue = {
     userInfo: {
@@ -25,8 +19,7 @@ const defaultValue = {
         photoURL: '',
     },
     signIn: (): Promise<boolean> => Promise.resolve(false),
-    logOut: () => { },
-    setUserSchema: (): Promise<RxDatabase | null | undefined> => Promise.resolve(undefined)
+    logOut: () => { }
 };
 
 export const UserAuthContext = createContext<AuthContextType>(defaultValue);
@@ -37,44 +30,17 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
         const storedUserToken = localStorage.getItem('loggedInUser')
         return storedUserToken ? JSON.parse(storedUserToken) as UserToken : {} as UserToken
     });
-    const navigate = useNavigate();
+    const router = useRouter();
     const [isUserValid, addLoggedInUser] = useUsersAuth();
-    const localDb = useContext(DbContext)
-
-    useEffect(() => {
-        async function setSchema() {
-            if (localDb?.db) {
-                try {
-                    if (!localDb?.db?.collections['userToken']) {
-                        await localDb?.db.addCollections({
-                            userToken: {
-                                schema: userTokenSchema
-                            }
-                        })
-                    }
-                } catch (error) {
-                    if (localDb?.db?.collections['userToken']) {
-                        localDb?.db?.userToken.remove();
-                    } else {
-                        await localDb?.db?.remove();
-                    }
-                }
-            }
-        }
-
-        setSchema();
-    }, [localDb?.db])
 
     const signIn = async (): Promise<boolean> => {
         try {
-            const userObject = await signInWithPopup(auth, googleProvider);
-            const token = await userObject.user.getIdToken();
-            const result = await isUserValid(token, userObject.user.email ? userObject.user.email : '');
-            if (result) {
+            const userObject = await signInWithGoogle();
+            if (userObject) {
                 const dbResponse = await addLoggedInUser(userObject.user);
                 if (dbResponse === true) {
                     const userInfoObj: UserToken = {
-                        accessToken: token,
+                        accessToken: "token",
                         displayName: userObject.user.displayName || '',
                         email: userObject.user.email || '',
                         emailVerified: userObject.user.emailVerified,
@@ -82,27 +48,14 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
                         photoURL: userObject.user.photoURL || '',
                         uId: userObject.user.uid
                     }
-
-                    if (localDb?.db?.collections['userToken']) {
-                        await localDb?.db?.userToken.insert({
-                            ...userInfoObj
-                        })
-                        //localStorage.setItem("loggedInUserUid", userObject.user.uid);
-                    }
-
                     setUserInfo(userInfoObj);
                     await localForage.setItem("loggedInUser", userInfoObj);
                     localStorage.setItem("loggedInUser", JSON.stringify(userInfoObj));
-
-
                     return true;
-                } else {
-                    localDb?.db?.userToken.remove();
                 }
             } else {
                 toast.error("Not able to varify user details");
                 localStorage.removeItem("loggedInUser");
-                localDb?.db?.userToken.remove();
             }
             return false;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -113,38 +66,15 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
     };
 
     const logOut = async () => {
+        await fetch("/api/auth/logout", { method: "POST" });
         setUserInfo({} as UserToken);
-        // localStorage.removeItem("loggedInUser");
-        localDb?.db?.userToken.remove();
-        await localForage.removeItem("loggedInUser");
-        navigate("/login");
-        window.location.reload();
+        router.push("/login");
         toast("Logged out successfully");
-    }
-
-    const setUserSchema = async (): Promise<RxDatabase | null | undefined> => {
-        if (localDb?.db) {
-            try {
-                if (!localDb?.db?.collections['userToken']) {
-                    await localDb?.db.addCollections({
-                        userToken: {
-                            schema: userTokenSchema
-                        }
-                    })
-                }
-            } catch (error) {
-                if (localDb?.db?.collections['userToken']) {
-                    await localDb?.db?.userToken.remove();
-                } else {
-                    await localDb?.db?.remove();
-                }
-            }
-        }
-        return localDb?.db
+        setTimeout(() => window.location.reload(), 500);
     }
 
     return (
-        <UserAuthContext.Provider value={{ userInfo, signIn, logOut, setUserSchema }}>
+        <UserAuthContext.Provider value={{ userInfo, signIn, logOut }}>
             {children}
         </UserAuthContext.Provider>
     )

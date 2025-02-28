@@ -1,7 +1,7 @@
 import { createContext, useState } from "react"
 import { useAdminAuth } from "../hooks/useAdminAuth";
 import { toast } from "react-toastify";
-import { LayoutProps } from "@/utils/types/commonTypes";
+import { LayoutProps } from "@/utils/types/CommonTypes";
 import { useRouter } from "next/router";
 //import useUrlAuth from "../../../hooks/useUrlAuth";
 

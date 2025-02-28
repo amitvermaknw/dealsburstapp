@@ -11,7 +11,8 @@ import { useUserContext } from '../features/authentication/hooks/useUserContext'
 // import { UserInfo } from '../type/UserType';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { UserInfo } from '@/utils/types/userInfoType';
+import { UserInfo } from '@/utils/types/UserInfoType';
+
 
 type Props = {
     onSubscribe: () => void
