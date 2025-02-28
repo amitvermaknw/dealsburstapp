@@ -1,20 +1,20 @@
-import { toast } from 'react-toastify';
-import axios, { AxiosResponse } from 'axios';
+// import { toast } from 'react-toastify';
+import { AxiosResponse } from 'axios';
 import { ProductListProps } from '@/utils/interface/ProductList';
-
+import apiClient from '@/utils/AxiosInstance';
 
 const fetchProducts = async (callType: string, record: number): Promise<ProductListProps | []> => {
     try {
-        const result: AxiosResponse<ProductListProps> = await axios.get<ProductListProps>(`/api/products/deals?callType=${callType}&record=${record}`);
+        const result: AxiosResponse<ProductListProps> = await apiClient.get<ProductListProps>(`/api/products/?callType=${callType}&record=${record}`);
         if (result.status === 200) {
             return result.data;
         } else {
-            toast.error(result.statusText);
+            // toast.error(result.statusText);
             return [];
         }
     } catch (error) {
         if (error instanceof Error) {
-            toast.error(error.message);
+            // toast.error(error.message);
             throw (error)
         }
         return []

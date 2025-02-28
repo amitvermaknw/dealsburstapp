@@ -12,7 +12,7 @@ export async function middleware(req: NextRequest) {
     }
 
     if (pathname.startsWith("/api/")) {
-        const token = req.headers.get("authorixaation");
+        const token = req.headers.get("Authorization");
 
 
         if (!token) {

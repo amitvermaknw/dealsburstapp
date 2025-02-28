@@ -1,4 +1,5 @@
-import { GET_DEALS } from "../../utils/Constants";
+import { GET_DEALS } from "@/utils/Constants";
+
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CommonReducer = (state: any, action: any): Array<any> => {

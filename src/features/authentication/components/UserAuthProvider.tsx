@@ -1,6 +1,5 @@
 import { createContext, useState } from "react"
 import { toast } from 'react-toastify';
-import { useUsersAuth } from '../hooks/useUsersAuth';
 import { UserToken } from "../Interface/userTokenInterface";
 import localForage from 'localforage';
 import { useRouter } from "next/router";
@@ -35,22 +34,19 @@ const UserAuthProvider = ({ children }: LayoutProps) => {
         try {
             const userObject = await signInWithGoogle();
             if (userObject) {
-
-                if (dbResponse === true) {
-                    const userInfoObj: UserToken = {
-                        accessToken: "token",
-                        displayName: userObject.user.displayName || '',
-                        email: userObject.user.email || '',
-                        emailVerified: userObject.user.emailVerified,
-                        phoneNumber: userObject.user.phoneNumber || '',
-                        photoURL: userObject.user.photoURL || '',
-                        uId: userObject.user.uid
-                    }
-                    setUserInfo(userInfoObj);
-                    await localForage.setItem("loggedInUser", userInfoObj);
-                    localStorage.setItem("loggedInUser", JSON.stringify(userInfoObj));
-                    return true;
+                const userInfoObject = {
+                    uId: userObject.uid,
+                    accessToken: userObject.accessToken,
+                    displayName: userObject.displayName || "",
+                    email: userObject.email || "",
+                    emailVerified: userObject.emailVerified || false,
+                    phoneNumber: userObject.phoneNumber || '',
+                    photoURL: userObject.photoURL || '',
                 }
+                setUserInfo(userInfoObject);
+                await localForage.setItem("loggedInUser", userInfoObject);
+                localStorage.setItem("loggedInUser", JSON.stringify(userInfoObject));
+                return true;
             } else {
                 toast.error("Not able to varify user details");
                 localStorage.removeItem("loggedInUser");

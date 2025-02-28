@@ -1,29 +1,29 @@
-import { updateAdminToken, addAdminToken, login } from "../services/adminAuthService";
+// import { updateAdminToken, addAdminToken, login } from "../services/adminAuthService";
 
-export const useAdminAuth = () => {
+// export const useAdminAuth = () => {
 
-    const authenticate = async (formData: { email: string, password: string }): Promise<string | { error: string }> => {
-        try {
-            const token = await login(formData);
-            await addAdminToken({
-                token: token,
-                status: true,
-                timestamp: new Date().toISOString()
-            })
-            return token;
+//     const authenticate = async (formData: { email: string, password: string }): Promise<string | { error: string }> => {
+//         try {
+//             const token = await login(formData);
+//             await addAdminToken({
+//                 token: token,
+//                 status: true,
+//                 timestamp: new Date().toISOString()
+//             })
+//             return token;
 
-        } catch (error) {
-            if (error instanceof Error) {
-                return { error: error.message };
-            }
+//         } catch (error) {
+//             if (error instanceof Error) {
+//                 return { error: error.message };
+//             }
 
-            return "error";
-        }
-    }
+//             return "error";
+//         }
+//     }
 
-    const removeToken = async () => {
-        await updateAdminToken();
-    }
+//     const removeToken = async () => {
+//         await updateAdminToken();
+//     }
 
-    return [authenticate, removeToken] as const
-}
+//     return [authenticate, removeToken] as const
+// }

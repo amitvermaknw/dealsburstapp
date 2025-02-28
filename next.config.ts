@@ -3,8 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   publicRuntimeConfig: {
-    firebaseApiKey: process.env.FIREBASE_API_KEY,
-    firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    firebaseApiKey: process.env.DEALSBURST_PUBLIC_FIREBASE_API_KEY,
+    firebaseAuthDomain: process.env.DEALSBURST_PUBLIC_FIREBASE_AUTH_DOMAIN,
   },
   serverRuntimeConfig: {
     DEALSBURST_PRIVATE_FIREBASE_PROJECT_ID: process.env.DEALSBURST_PRIVATE_FIREBASE_PROJECT_ID,

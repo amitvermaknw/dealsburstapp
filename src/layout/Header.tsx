@@ -1,16 +1,15 @@
-'use client'
+"use client";
+
 import { useEffect, useState, useRef } from 'react'
 import { Transition } from '@headlessui/react'
 import Link from 'next/link';
-import { useAdminContext } from '../features/authentication/hooks/useAdminContext';
-import logo from 'images/db_logo.svg';
-import default_avatar from 'images/default-avatar.svg'
+// import { useAdminContext } from '../features/authentication/hooks/useAdminContext';
 // import SignupWithGoogleDialog from '../features/users/signup/component/SignupWithGoogleDialog';
 import { useUserContext } from '../features/authentication/hooks/useUserContext';
 // import { DbContext } from "../providers/DBProvider";
 // import { UserInfo } from '../type/UserType';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { UserInfo } from '@/utils/types/UserInfoType';
 
 
@@ -22,7 +21,7 @@ type Props = {
 const Header = () => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const adminAuth = useAdminContext();
+    // const adminAuth = useAdminContext();
     const userAuth = useUserContext();
     const [profileDropdown, setProfileDropdown] = useState(false);
     // const [signUpDialog, setSignupDialog] = useState(false);
@@ -64,6 +63,15 @@ const Header = () => {
     // }, [localDb?.db]);
 
     useEffect(() => {
+        setLoggedInUser({
+            accessToken: "data.userToken",
+            displayName: "userObject.user.displayName",
+            email: "userObject.user.email",
+            emailVerified: true,
+            phoneNumber: "",
+            photoURL: "userObject.user.photoURL",
+            uId: "string"
+        })
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setProfileDropdown(false);
@@ -140,7 +148,7 @@ const Header = () => {
                         <Link href="/">
                             <Image
                                 className="h-14"
-                                src={logo}
+                                src="/images/db_logo.svg"
                                 alt="logo"
                             />
                         </Link>
@@ -176,7 +184,7 @@ const Header = () => {
                                     >
                                         Login
                                     </Link>} */}
-                                    {adminAuth.token ? <> <Link
+                                    {/* {adminAuth.token ? <> <Link
                                         href="/dashboard"
                                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     >
@@ -185,14 +193,16 @@ const Header = () => {
                                         <button onClick={() => adminAuth.logOut()} className="btn-submit text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                             Logout
                                         </button> </>
-                                        : ''}
+                                        : ''} */}
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div className="flex justify-between items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse relative">
-                        {(loggedInUser?.displayName || adminAuth.token) ?
+                        {/* {(loggedInUser?.displayName || adminAuth.token) ? */}
+                        {(loggedInUser?.displayName) ?
+
                             <button type="button"
                                 className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                                 id="user-menu-button"
@@ -202,7 +212,7 @@ const Header = () => {
                             >
                                 <span className="sr-only">Open user menu</span>
                                 <Image className="w-8 h-8 rounded-full"
-                                    src={loggedInUser?.photoURL || default_avatar} alt="user photo" />
+                                    src={loggedInUser?.photoURL || '/images/default-avatar.svg'} alt="user photo" />
                             </button>
                             :
                             <button type="button"
@@ -340,7 +350,7 @@ const Header = () => {
                             >
                                 Login
                             </Link>} */}
-                            {adminAuth.token ? <> <Link
+                            {/* {adminAuth.token ? <> <Link
                                 href="/dashboard"
                                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 onClick={() => setIsOpen(false)}
@@ -355,7 +365,7 @@ const Header = () => {
                                     Logout
                                 </Link>
                             </>
-                                : ''}
+                                : ''} */}
                         </div>
                     </div>
                 )}

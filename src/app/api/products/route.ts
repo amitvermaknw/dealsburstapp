@@ -6,10 +6,14 @@ const baseUrl = process.env.NODE_ENV === 'development' ? process.env.DEALSBURST_
 
 export async function GET(req: NextRequest) {
     try {
-        const { callType, record } = req.url as unknown as { callType: string, record: string };
+        const { searchParams } = new URL(req.url);
+        const callType = searchParams.get("callType");
+        const record = searchParams.get("record");
+        console.log("callType", req.url)
+        // return NextResponse.json({ status: 200, callType: callType, record: record })
         const result: AxiosResponse<ProductListProps> = await axios.get<ProductListProps>(`${baseUrl}/deals/${callType}/${record}`);
         return NextResponse.json(result);
     } catch (error) {
-        return NextResponse.json({ error: error }, { status: 500 });
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
