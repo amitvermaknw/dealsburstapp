@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect } from "react";
 import useDealsList from "../hooks/useDealsList";
 import Skeleton from "@/components/ui/Skeleton";
 import Review from "@/components/ui/Review";
@@ -8,7 +7,11 @@ import { ProductListProps } from "@/utils/interface/ProductList";
 import usePageSeo from "@/hooks/usePageSeo";
 import { usePathname } from "next/navigation";
 
-const ProductsList = (initialProducts: Array<ProductListProps>) => {
+interface ProductsListProps {
+    initialProducts: ProductListProps[];
+}
+
+const ProductsList = ({ initialProducts }: ProductsListProps) => {
 
     const [state, dealsList] = useDealsList(initialProducts);
     const pathName = usePathname();
@@ -18,10 +21,6 @@ const ProductsList = (initialProducts: Array<ProductListProps>) => {
     const getDeals = (callType: string, record: number) => {
         dealsList(callType, record);
     }
-
-    useEffect(() => {
-        getDeals('start', 20);
-    }, [])
 
     usePageSeo({
         title: 'Best Deals and Promotions - Save Big on Top Offers and Discounts',

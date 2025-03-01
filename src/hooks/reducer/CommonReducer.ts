@@ -4,6 +4,7 @@ import { GET_DEALS } from "@/utils/Constants";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CommonReducer = (state: any, action: any): Array<any> => {
     const new_state = JSON.parse(JSON.stringify(state))
+    debugger
 
     switch (action.type) {
         case GET_DEALS:

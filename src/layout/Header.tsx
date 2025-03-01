@@ -69,7 +69,7 @@ const Header = () => {
             email: "userObject.user.email",
             emailVerified: true,
             phoneNumber: "",
-            photoURL: "userObject.user.photoURL",
+            photoURL: "/images/default-avatar.svg",
             uId: "string"
         })
         const handleClickOutside = (event: MouseEvent) => {
@@ -214,7 +214,11 @@ const Header = () => {
                             >
                                 <span className="sr-only">Open user menu</span>
                                 <Image className="w-8 h-8 rounded-full"
-                                    src={loggedInUser?.photoURL || '/images/default-avatar.svg'} alt="user photo" />
+                                    src={loggedInUser?.photoURL || '/images/default-avatar.svg'}
+                                    alt="user photo"
+                                    height={30}
+                                    width={30}
+                                />
                             </button>
                             :
                             <button type="button"
