@@ -9,11 +9,17 @@ export async function GET(req: NextRequest) {
         const { searchParams } = new URL(req.url);
         const callType = searchParams.get("callType");
         const record = searchParams.get("record");
-        console.log("callType", req.url)
-        // return NextResponse.json({ status: 200, callType: callType, record: record })
         const result: AxiosResponse<ProductListProps> = await axios.get<ProductListProps>(`${baseUrl}/deals/${callType}/${record}`);
-        return NextResponse.json(result);
+        if (result.hasOwnProperty("data")) {
+            if (result.data.length) {
+                return NextResponse.json(result.data);
+            }
+        }
+        return NextResponse.json({ status: 400, msg: "No Result found" });
     } catch (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        if (error instanceof Error) {
+            return NextResponse.json({ error: error.message }, { status: 500 });
+        }
+        return "error";
     }
 }

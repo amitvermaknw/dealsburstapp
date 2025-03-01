@@ -150,6 +150,8 @@ const Header = () => {
                                 className="h-14"
                                 src="/images/db_logo.svg"
                                 alt="logo"
+                                width={60}
+                                height={60}
                             />
                         </Link>
                     </div>
