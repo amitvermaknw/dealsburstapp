@@ -1,6 +1,4 @@
 import { Carousel } from 'flowbite-react'
-
-import Image from 'next/image';
 import Link from 'next/link';
 import { getBanner } from '@/app/api/home/banner/route';
 import { BannerListProps } from '@/utils/types/BannerType';
@@ -18,7 +16,7 @@ const Banner = async () => {
         <div className="h-28 sm:h-64 xl:h-80 2xl:h-96">
             {bstate.msg.length ? <Carousel>
                 {bstate ? bstate.msg.map((item) => {
-                    return <Link href={item.bannerurl} target="_blank" key={item.bid} ><Image src={item.bimageurl} alt="" /></Link>
+                    return <Link href={item.bannerurl} target="_blank" key={item.bid} ><img src={item.bimageurl} alt="" /></Link>
                 }) : ''}
             </Carousel> : <Skeleton />}
         </div>

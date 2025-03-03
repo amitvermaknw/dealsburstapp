@@ -1,6 +1,6 @@
-import 'quill/dist/quill.snow.css'
+// import 'quill/dist/quill.snow.css'
 import { useMemo } from 'react';
-import ReactQuill from 'react-quill'
+// import ReactQuill from 'react-quill'
 
 interface EditorInterface {
     value?: string;
@@ -43,15 +43,16 @@ const TextEditor = (props: EditorInterface) => {
     ];
 
     const quillComponent = useMemo(() => (
-        <ReactQuill
-            theme="snow"
-            modules={modules}
-            formats={formats}
-            placeholder="Your content ...."
-            onChange={props.onChangeEditor}
-            value={props.value}
-            id={props.name}
-        />
+        // <ReactQuill
+        //     theme="snow"
+        //     modules={modules}
+        //     formats={formats}
+        //     placeholder="Your content ...."
+        //     onChange={props.onChangeEditor}
+        //     value={props.value}
+        //     id={props.name}
+        // />
+        <div>test</div>
     ), [props.value]);
 
     return (

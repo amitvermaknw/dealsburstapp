@@ -1,12 +1,13 @@
-'use client';
+// 'use client';
 
 import FormContainer from "../../../components/ui/FormContainer";
 import useSubscribe from "../hooks/useSubscribe";
 import { useState } from "react";
 import Modal from '../../../components/ui/Modal';
 import { VoidFun } from "@/utils/types/CommonTypes";
-import { submitSubscribe } from "@/app/api/home/subscribe/route";
+// import { submitSubscribe } from "@/app/api/home/subscribe/route";
 import SubscribeModel from "@/model/SubscribeModel";
+import { useFormStatus } from "react-dom";
 
 type Props = {
     onCancel: VoidFun
@@ -14,11 +15,13 @@ type Props = {
 
 const Subscribe = ({ onCancel }: Props) => {
     const [state, onChange, onSubmit] = useSubscribe(SubscribeModel);
+    const { pending } = useFormStatus();
 
     const [loader, setLoader] = useState(false)
     const onFormSubmit = async () => {
         setLoader(true);
         onSubmit()
+        localStorage.setItem("is_subscribed", "true");
         setLoader(false);
         onCancel();
     }
@@ -40,6 +43,7 @@ const Subscribe = ({ onCancel }: Props) => {
 
                     </button>
                     <button type="button"
+                        disabled={pending}
                         onClick={() => onCancel()} className="ml-2 text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                         Cancel
                     </button>

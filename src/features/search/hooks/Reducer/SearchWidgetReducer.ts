@@ -6,7 +6,7 @@ import { EventType } from "../../../../utils/Types";
 type T = EventType & { type: string, payload?: { content: string | boolean | number }, data?: any }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const SusbscribeReducer = (state: any, action: T) => {
+const SearchWidgetReducer = (state: any, action: T) => {
     const newState = state
     switch (action.type) {
         case ON_CHANGE:
@@ -16,4 +16,4 @@ const SusbscribeReducer = (state: any, action: T) => {
     }
 };
 
-export default SusbscribeReducer;
+export default SearchWidgetReducer;

@@ -4,7 +4,7 @@ import { useState } from "react";
 import useGetDeals from "../hooks/useGetDeals";
 import Skeleton from "../../../components/ui/Skeleton";
 import Subscribe from "./Subscribe";
-import Image from "next/image";
+// import Image from "next/image";
 import { ProductListProps } from "@/utils/types/ProductList";
 import Link from "next/link";
 
@@ -37,7 +37,7 @@ const TodaysDeals = ({ initialProducts }: ProductsListProps) => {
                 {pstate.length ? pstate.map((item: ProductListProps, index: number) => {
                     return <article key={`${item.pid}_${index}`} className="h-90 col-span-1 m-auto min-h-full min-w-full  cursor-pointer overflow-hidden rounded-lg pb-2 shadow-lg transition-transform duration-200 hover:translate-y-2">
                         <Link href={`/pdetails/${item.urlstring ? item.urlstring : item.pid}`} className="block h-full w-full">
-                            <Image className="max-h-40 w-full object-cover" alt="featured image" src={item.pimageurl} />
+                            <img className="max-h-40 w-full object-cover" alt="featured image" src={item.pimageurl} />
                             <div className="w-full bg-white p-2">
                                 <p className="mb-3 text-sm md:text-md xl:text-xl font-medium text-gray-800 line-clamp-2">
                                     {item.pname}

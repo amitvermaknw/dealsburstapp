@@ -1,4 +1,5 @@
-import { AddDeals } from "../../utils/Types";
+
+import { AddDeals } from "@/utils/types/AddDeals";
 import BrowseBtn from "./BrowseBtn";
 import Input from "./Input";
 import Select from "./Select";
@@ -41,7 +42,7 @@ const buildForm = (formElement: Props) => {
 }
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 const FormContainer = ({ ...props }: Props) => {
     return (<>
         {typeof props.state === 'object' ? buildForm(props).map(item => item) : ''}

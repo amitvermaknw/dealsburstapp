@@ -5,6 +5,7 @@ export type LayoutProps = {
 }
 
 export type VoidFun = () => void;
+export type EventType = { event?: React.ChangeEvent<HTMLInputElement> }
 
 export type FormElements = {
     name: string,
