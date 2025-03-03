@@ -3,7 +3,7 @@
 import useDealsList from "../hooks/useDealsList";
 import Skeleton from "@/components/ui/Skeleton";
 import Review from "@/components/ui/Review";
-import { ProductListProps } from "@/utils/interface/ProductList";
+import { ProductListProps } from "@/utils/types/ProductList";
 import usePageSeo from "@/hooks/usePageSeo";
 import { usePathname } from "next/navigation";
 

@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .ais-SearchBox-input {
     border-radius: none !important;
     box-shadow: none !important;

@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { ProductListProps } from "@/utils/interface/ProductList";
+import { ProductListProps } from "@/utils/types/ProductList";
 import CommonReducer from "../../../hooks/reducer/CommonReducer";
 import { GET_DEALS } from "@/utils/Constants";
 import { fetchProducts } from "@/services/productServices";

@@ -1,11 +1,13 @@
-import ProductsList from "@/features/products/components/ProductsList";
+import { TodaysDeals } from "@/features/home";
 import { fetchProducts } from "@/services/productServices";
 import { ProductListProps } from "@/utils/types/ProductList";
 
-const ProductsPage = async () => {
+const HomePage = async () => {
     const response = await fetchProducts('start', 5);
     const initialProducts: ProductListProps[] = Array.isArray(response) ? response : [response];
-    return <ProductsList initialProducts={initialProducts} />
+    return (
+        <TodaysDeals initialProducts={initialProducts} />
+    )
 }
 
-export default ProductsPage;
+export default HomePage;

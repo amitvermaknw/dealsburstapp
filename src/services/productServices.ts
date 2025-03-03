@@ -1,6 +1,6 @@
 // import { toast } from 'react-toastify';
 import { AxiosResponse } from 'axios';
-import { ProductListProps } from '@/utils/interface/ProductList';
+import { ProductListProps } from '@/utils/types/ProductList';
 import apiClient from '@/utils/AxiosInstance';
 
 const fetchProducts = async (callType: string, record: number): Promise<ProductListProps | []> => {

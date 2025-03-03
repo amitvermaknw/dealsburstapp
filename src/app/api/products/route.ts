@@ -1,4 +1,4 @@
-import { ProductListProps } from "@/utils/interface/ProductList";
+import { ProductListProps } from "@/utils/types/ProductList";
 import axios, { AxiosResponse } from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
