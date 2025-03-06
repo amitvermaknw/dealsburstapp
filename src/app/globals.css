@@ -14,3 +14,14 @@
 .pdetails >ul {
     list-style-type: square;
 }
+
+.ais-Hits-item {
+    width: 100% !important;
+    font-size: 0.875rem !important;
+    margin-top: 0 !important;
+    border-top: 1px !important;
+}
+
+[class^=ais-] {
+    font-size: 0.875rem !important;
+}

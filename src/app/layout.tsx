@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Best Deals and Discounts - Daily Offers | Deals Burst",
   description: "Discover the best deals and discounts on electronics, fashion, home goods, and more. Save money with exclusive offers, coupon codes, and limited-time sales on top products. Shop smart and save big!",
+  keywords: "deals, promotions, discounts, coupons, sales, offers, bargains, shopping deals, online deals, daily deals, best deals, special offers, discount codes, promo codes, savings, hot deals, limited time offers, exclusive deals, cheap prices, top deals, budget shopping, clearance sales",
+  icons: "/images/db_logo.svg",
+  viewport: "width=device-width, initial-scale=1.0"
 };
 
 export default function RootLayout({
