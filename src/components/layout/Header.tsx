@@ -9,7 +9,7 @@ import { useUserContext } from '../../features/authentication/hooks/useUserConte
 // import { DbContext } from "../providers/DBProvider";
 // import { UserInfo } from '../type/UserType';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { UserInfo } from '@/utils/types/UserInfoType';
 
 
@@ -28,6 +28,7 @@ const Header = () => {
     const [loggedInUser, setLoggedInUser] = useState<UserInfo>();
     const navigate = useRouter();
     const dropdownRef = useRef<HTMLDivElement | null>(null);
+    const pathName = usePathname();
 
     // const localDb = useContext(DbContext)
 
@@ -161,21 +162,27 @@ const Header = () => {
                                 <div className="ml-10 flex items-baseline space-x-4">
                                     <Link
                                         href="/"
-                                        className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+                                        className={pathName === '/' ?
+                                            "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium bg-gray-700 active:text-white"
+                                            : "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
                                     >
                                         Home
                                     </Link>
 
                                     <Link
-                                        href="deals"
-                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                        href="products"
+                                        className={pathName === '/products' ?
+                                            "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium bg-gray-700 active:text-white"
+                                            : "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
                                     >
                                         Deals
                                     </Link>
 
                                     <Link
                                         href="#"
-                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                        className={pathName === '#' ?
+                                            "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium bg-gray-700 active:text-white"
+                                            : "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
                                         onClick={() => "props.onSubscribe()"}
                                     >
                                         Subscribe
