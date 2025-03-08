@@ -170,8 +170,8 @@ const Header = () => {
                                     </Link>
 
                                     <Link
-                                        href="products"
-                                        className={pathName === '/products' ?
+                                        href="deals"
+                                        className={pathName === '/deals' ?
                                             "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium bg-gray-700 active:text-white"
                                             : "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"}
                                     >
