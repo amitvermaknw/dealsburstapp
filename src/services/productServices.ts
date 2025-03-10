@@ -18,23 +18,40 @@ const fetchProducts = async (callType: string, record: number): Promise<ProductL
     }
 }
 
-const fetchProductDetails = async (pId: string | undefined): Promise<ProductListProps | null> => {
+const fetchYouMightLikeDeals = async (category: string): Promise<ProductListProps | Array<[]> | string> => {
     try {
-        const result: AxiosResponse<ProductListProps> = await apiClient.get<ProductListProps>(`/api/deals/${pId}`);
+        const result: AxiosResponse<ProductListProps> = await apiClient.get<ProductListProps>(`/api/deals/like/?category=${category}`);
         if (result.status === 200) {
             return result.data;
         } else {
-            return null;
+            return [];
         }
+
     } catch (error) {
         if (error instanceof Error) {
-            throw (error)
+            return (error.message)
         }
-        return null
+        return [];
     }
 }
 
+// const fetchProductDetails = async (pId: string | undefined): Promise<ProductListProps | null> => {
+//     try {
+//         const result: AxiosResponse<ProductListProps> = await apiClient.get<ProductListProps>(`/api/deals/${pId}`);
+//         if (result.status === 200) {
+//             return result.data;
+//         } else {
+//             return null;
+//         }
+//     } catch (error) {
+//         if (error instanceof Error) {
+//             throw (error)
+//         }
+//         return null
+//     }
+// }
+
 export {
     fetchProducts,
-    fetchProductDetails
+    fetchYouMightLikeDeals
 }

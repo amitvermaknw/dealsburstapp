@@ -6,31 +6,29 @@ import { toast } from "react-toastify";
 import Review from "@/components/ui/Review";
 // import PComments from "./PComments";
 import { useRouter } from "next/navigation";
-// import WishListWidget from "../../users/wishlist/component/WishListWidget";
 import { ProductListProps } from '@/utils/types/ProductList';
+import usePageSeo from "@/hooks/usePageSeo";
+import WishListWidget from "@/features/users/wishlist/component/WishListWidget";
 
 
 const PDetails = (pstate: ProductListProps) => {
     const navigate = useRouter();
 
 
-    // usePageSeo({
-    //     title: pstate.pname,
-    //     description: pstate.productdetails,
-    //     keywords: [pstate.pcategory],
-    //     ogTitle: pstate.pname,
-    //     ogDescription: pstate.productdetails,
-    //     ogImage: pstate.pimageurl,
-    //     ogUrl: `${baseUrl}${useLocation().pathname}`
-    // })
+    usePageSeo({
+        title: pstate.pname,
+        description: pstate.productdetails,
+        keywords: [pstate.pcategory],
+        ogTitle: pstate.pname,
+        ogDescription: pstate.productdetails,
+        ogImage: pstate.pimageurl,
+        // ogUrl: `${baseUrl}${useLocation().pathname}`
+        ogUrl: ''
+    })
 
     const copyCoupon = (coupon: string) => {
         navigator.clipboard.writeText(coupon);
         toast.success("Coupon copied");
-    }
-
-    const goBack = () => {
-        navigate.push("/");
     }
 
     return (
@@ -40,13 +38,13 @@ const PDetails = (pstate: ProductListProps) => {
                     <div className="grid items-start grid-cols-2 lg:grid-cols-2 gap-12">
                         <div className="lg:col-span-1 w-full lg:sticky top-0 text-left">
                             <button type="button"
-                                onClick={() => goBack()}
+                                onClick={() => navigate.back()}
                                 className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 mt-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                                 Back</button>
                         </div>
-                        {/* <div className="lg:col-span-1 w-full lg:sticky top-0 text-right">
+                        <div className="lg:col-span-1 w-full lg:sticky top-0 text-right">
                             <WishListWidget pId={pstate.pid} />
-                        </div> */}
+                        </div>
 
                     </div>
 

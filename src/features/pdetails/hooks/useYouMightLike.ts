@@ -1,8 +1,8 @@
 import { useReducer } from "react";
-import { GET_DEALS } from "../../../utils/Constants";
-import { ProductListProps } from "../../../utils/Types";
-import CommonReducer from '../../../hooks/reducer/CommonReducer';
-import { fetchYouMightLikeDeals } from "../services/fetchDealDetailsService";
+import CommonReducer from '@/hooks/reducer/CommonReducer';
+import { ProductListProps } from "@/utils/types/ProductList";
+import { fetchYouMightLikeDeals } from "@/services/productServices";
+import { GET_DEALS } from "@/utils/Constants";
 
 const useYouMightLike = (initState: Array<ProductListProps>) => {
 

@@ -6,7 +6,8 @@ import { AxiosResponse } from "axios";
 const DealsDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params;
     const response: AxiosResponse<ProductListProps> = await apiClient.get<ProductListProps>(`/api/deals/details/?pId=${id}`);
-    return <PDetails {...response.data} />
+    const dealsData: ProductListProps = response.data[0] as ProductListProps;
+    return <PDetails {...dealsData} />
 }
 
 export default DealsDetails;

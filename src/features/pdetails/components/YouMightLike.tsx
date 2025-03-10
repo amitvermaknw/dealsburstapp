@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import Skeleton from "../../../components/ui/Skeleton";
-import GetDealsModel from "../../../model/GetDealsModel";
 import useYouMightLike from "../hooks/useYouMightLike";
-import { ProductListProps } from "../../../utils/Types";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
+import { ProductListProps } from "@/utils/types/ProductList";
+import GetDealsModel from "@/model/GetDealsModel";
 
 const YouMightLike = ({ category }: { category: string }) => {
 
     const [pstate, getYouMightLike] = useYouMightLike(GetDealsModel);
-    const navigate = useNavigate();
+    const navigate = useRouter();
 
     const getDeals = (callType: string) => {
         getYouMightLike(callType);
@@ -25,7 +25,7 @@ const YouMightLike = ({ category }: { category: string }) => {
             <div className="mx-auto grid max-w-screen-2xl grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ml-2 mr-2">
                 {pstate.length ? pstate.map((item: ProductListProps, index: number) => {
                     return <article key={`${item.pid}_${index}`} className="h-90 col-span-1 m-auto min-h-full min-w-full cursor-pointer overflow-hidden rounded-lg pb-2 shadow-lg transition-transform duration-200 hover:translate-y-2">
-                        <a href={item.urlstring ? `/pdetails/${item.urlstring}` : `/pdetails/${item.pid}`} className="block h-full w-full">
+                        <a href={item.urlstring ? `/deals/${item.urlstring}` : `/deals/${item.pid}`} className="block h-full w-full">
                             <img className="max-h-40 w-full object-cover" alt="featured image" src={item.pimageurl} />
                             <div className="w-full bg-white p-2">
                                 <p className="mb-3 text-sm md:text-md xl:text-xl font-medium text-gray-800 line-clamp-2">
@@ -48,7 +48,7 @@ const YouMightLike = ({ category }: { category: string }) => {
             </div>
             <div className="flex p-2 pt-8 justify-center">
                 <button
-                    onClick={() => navigate("/deals")}
+                    onClick={() => navigate.push("/deals")}
                     type="button"
                     className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">View more</button>
             </div>
