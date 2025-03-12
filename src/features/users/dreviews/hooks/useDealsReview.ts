@@ -1,10 +1,11 @@
 import { useEffect, useReducer } from "react";
-import { DealsReview } from "../../../../Interface/DealsReviewInterface";
+
 import DealsReviewReducer from "./reducer/DealsReviewReducer";
 import { getDealsReview, addDealsReview, deleteDealsReview } from "../services/dealsReviewService";
 import { ADD_HELPFUL_REVIWS, ADD_REVIWS, GET_REVIWS, REMOVE_REVIWS } from "../../../../utils/Constants";
-import { GetDealsReviewInterface } from "../../../../Interface/DealsReviewInterface";
+
 import { BehaviorSubject } from "rxjs";
+import { DealsReview, GetDealsReviewInterface } from "@/utils/interface/DealReview";
 
 const dealsCommentDetails = new BehaviorSubject<DealsReview>({
     comId: '',

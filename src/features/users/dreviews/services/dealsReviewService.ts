@@ -1,14 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 
 import { toast } from 'react-toastify';
 import axios, { AxiosResponse } from 'axios';
-import { DealsReview } from "../../../../Interface/DealsReviewInterface";
-import { GetDealsReviewInterface } from '../../../../Interface/DealsReviewInterface';
 import localForage from 'localforage';
-import { UserToken } from '../../../../Interface/UserTokenInterface';
+import { UserToken } from '@/features/authentication/Interface/userTokenInterface';
+import { DealsReview, GetDealsReviewInterface } from '@/utils/interface/DealReview';
+// import { UserToken } from '../../../../Interface/UserTokenInterface';
 
-const mode = import.meta.env;
-const baseUrl = mode.DEV === true ? import.meta.env.VITE_REVIEW_SERVICE_LOCAL : import.meta.env.VITE_REVIEW_SERVICE_PROD;
+// const mode = import.meta.env;
+// const baseUrl = mode.DEV === true ? import.meta.env.VITE_REVIEW_SERVICE_LOCAL : import.meta.env.VITE_REVIEW_SERVICE_PROD;
+const baseUrl = ''
 
 export const getDealsReview = async (deals: GetDealsReviewInterface): Promise<Array<DealsReview> | Array<[]>> => {
     try {

@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import DealsReviewsList from "./DealsReviewsList";
-import { GetDealsReviewInterface, DealsReview } from "../../../../Interface/DealsReviewInterface";
+
 import localForage from 'localforage'
-import { UserToken } from '../../../../Interface/UserTokenInterface';
+import { DealsReview, GetDealsReviewInterface } from "@/utils/interface/DealReview";
+import { UserToken } from "@/features/authentication/Interface/userTokenInterface";
+
 
 
 interface ReviewRed {

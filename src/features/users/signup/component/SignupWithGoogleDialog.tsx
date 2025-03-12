@@ -1,4 +1,4 @@
-import { VoidFun } from "../../../../utils/Types";
+import { VoidFun } from '@/utils/types/CommonTypes';
 import Modal from '../../../../components/ui/Modal';
 import { SignInWithGoogle } from "../../../authentication";
 

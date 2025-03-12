@@ -1,20 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 
 import { toast } from 'react-toastify';
 import axios, { AxiosResponse } from 'axios';
-import { DealsReview } from "../../../../Interface/DealsReviewInterface";
 import localForage from 'localforage';
-import { UserToken } from '../../../../Interface/UserTokenInterface';
-import { MyWishList } from '../../../../Interface/MyWishListInterface';
+import { UserToken } from '@/features/authentication/Interface/userTokenInterface';
+import { DealsReview } from '@/utils/interface/DealReview';
 
 
-const mode = import.meta.env;
-const baseUrl = mode.DEV === true ? import.meta.env.VITE_REVIEW_SERVICE_LOCAL : import.meta.env.VITE_REVIEW_SERVICE_PROD;
+// const mode = import.meta.env;
+// const baseUrl = mode.DEV === true ? import.meta.env.VITE_REVIEW_SERVICE_LOCAL : import.meta.env.VITE_REVIEW_SERVICE_PROD;
+const baseUrl = ''
 
 export const getMyWishListService = async (callType: string, record: number): Promise<MyWishList | Array<[]>> => {
     try {
         const matchingDocs: UserToken | null = await localForage.getItem("loggedInUser");
-        const result: AxiosResponse<MyWishList> = await axios.get<MyWishList>(`${baseUrl}/users/wishlist/${callType}/${record}/${matchingDocs?.uId}`, { headers: { Authorization: matchingDocs?.accessToken, uid: matchingDocs?.uId } });
+        const result: AxiosResponse<My> = await axios.get<MyWishList>(`${baseUrl}/users/wishlist/${callType}/${record}/${matchingDocs?.uId}`, { headers: { Authorization: matchingDocs?.accessToken, uid: matchingDocs?.uId } });
         if (result.status === 200) {
             return result.data;
         } else {

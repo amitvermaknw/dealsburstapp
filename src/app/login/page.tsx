@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import Input from "../../../components/ui/Input";
-import Button from "../../../components/ui/Button";
-import { useAdminContext } from "../hooks/useAdminContext";
-import Alert from "../../../components/ui/Alert";
 import { toast } from 'react-toastify';
-import SignInWithGoogle from "./SignInWithGoogle";
 import { useRouter } from "next/router";
+import Alert from "@/components/ui/Alert";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
 
-const AdminLogin = () => {
+const Login = () => {
     const [input, setInput] = useState({
         email: "",
         password: ""
@@ -78,11 +76,11 @@ const AdminLogin = () => {
                 {auth.alertMsg && (<div className="px-6 py-4">
                     {toast(auth.alertMsg)}
                 </div>)}
-                <SignInWithGoogle />
+                {/* <SignInWithGoogle /> */}
             </div>
 
         </div>
     )
 }
 
-export default AdminLogin
+export default Login

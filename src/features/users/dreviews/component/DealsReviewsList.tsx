@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import ReadMore from "../../../../common/ReadMore";
-import { DealsReview } from "../../../../Interface/DealsReviewInterface";
-import { UserInfo } from "../../../../type/UserType";
+// import ReadMore from "../../../../common/ReadMore";
+
+
 import { useUserContext } from "../../../authentication/hooks/useUserContext";
+import { DealsReview } from "@/utils/interface/DealReview";
+import { UserInfo } from "@/utils/types/UserInfoType";
 
 interface DealReviewProps {
     prstate: DealsReview;
@@ -48,16 +50,17 @@ const DealsReviewsList = ({ prstate, helpful, editComment, deleteComment }: Deal
 
     useEffect(() => {
         const fetchUserSchema = async () => {
-            const userSchema = await userAuth.setUserSchema();
-            if (userSchema) {
-                const subscription = userSchema.userToken.findOne().$.subscribe((user) => {
-                    if (user) {
-                        setLoggedInUser(user);
-                    }
-                });
+            // const userSchema = await userAuth.setUserSchema();
+            // if (userSchema) {
+            //     const subscription = userSchema.userToken.findOne().$.subscribe((user) => {
+            //         if (user) {
+            //             setLoggedInUser(user);
+            //         }
+            //     });
 
-                return () => subscription.unsubscribe();
-            }
+            //     return () => subscription.unsubscribe();
+            // }
+            console.log('test')
         };
         fetchUserSchema();
     }, []);
@@ -88,7 +91,7 @@ const DealsReviewsList = ({ prstate, helpful, editComment, deleteComment }: Deal
             </div>
             {/* <p className="mb-2 text-gray-500 text-sm dark:text-gray-400">{prstate.comments}</p>
             <a href="#" className="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Read more</a> */}
-            <ReadMore content={prstate.comments} />
+            {/* <ReadMore content={prstate.comments} /> */}
             <aside>
                 <p className="mt-8 text-xs text-gray-500 dark:text-gray-400">{helpfulBtnState ? `${totalHelpful} people found this helpful` : ''} </p>
                 <div className="flex items-center mt-3">
