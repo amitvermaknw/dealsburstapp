@@ -1,6 +1,6 @@
-// import { useContext } from 'react';
-// import { AdminAuthContext, } from '../components/AdminAuthProvider';
+import { useContext } from 'react';
+import { AdminAuthContext, } from '../components/AdminAuthProvider';
 
-// export const useAdminContext = () => {
-//     return useContext(AdminAuthContext);
-// }
+export const useAdminContext = () => {
+    return useContext(AdminAuthContext);
+}

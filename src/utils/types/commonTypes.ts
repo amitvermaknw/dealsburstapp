@@ -18,3 +18,8 @@ export type FormElements = {
     imageObject?: string
     image?: string
 }
+
+export type ResponseType = {
+    code: number;
+    msg: string;
+}

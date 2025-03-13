@@ -1,29 +1,50 @@
-// import { updateAdminToken, addAdminToken, login } from "../services/adminAuthService";
 
-// export const useAdminAuth = () => {
+export const useAdminAuth = () => {
 
-//     const authenticate = async (formData: { email: string, password: string }): Promise<string | { error: string }> => {
-//         try {
-//             const token = await login(formData);
-//             await addAdminToken({
-//                 token: token,
-//                 status: true,
-//                 timestamp: new Date().toISOString()
-//             })
-//             return token;
+    const authenticate = async (formData: { email: string, password: string }): Promise<{ code: number, msg: string } | { error: string }> => {
+        try {
+            const result = await fetch("/api/auth/admin/login", {
+                method: "POST",
+                body: JSON.stringify(formData)
+            });
 
-//         } catch (error) {
-//             if (error instanceof Error) {
-//                 return { error: error.message };
-//             }
+            const loginStatus = await result.json();
+            if (loginStatus.code === 200) {
+                return loginStatus;
+            }
 
-//             return "error";
-//         }
-//     }
+            return loginStatus;
 
-//     const removeToken = async () => {
-//         await updateAdminToken();
-//     }
+        } catch (error) {
+            if (error instanceof Error) {
+                return { error: error.message };
+            }
 
-//     return [authenticate, removeToken] as const
-// }
+            return { error: "error" }
+        }
+    }
+
+    const removeToken = async () => {
+        try {
+            const result = await fetch("/api/auth/admin/logout", {
+                method: "DELETE"
+            });
+
+            const logoutStatus = await result.json();
+            if (logoutStatus.code === 200) {
+                return logoutStatus;
+            }
+
+            return logoutStatus;
+
+        } catch (error) {
+            if (error instanceof Error) {
+                return { error: error.message };
+            }
+
+            return { error: "error" }
+        }
+    }
+
+    return [authenticate, removeToken] as const
+}

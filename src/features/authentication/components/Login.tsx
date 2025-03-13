@@ -57,7 +57,7 @@ const Login = () => {
 
         startTransition(async () => {
             const response = await auth.loginAction(formData);
-            if (response.success) {
+            if (response.code) {
                 setFormData({ email: "", password: "" })
             }
         });
