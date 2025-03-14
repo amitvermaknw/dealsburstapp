@@ -16,7 +16,9 @@ const schema = z.object({
 });
 
 type FormData = z.infer<typeof schema>;
-type Errors = Record<keyof FormData, string[]>;
+type Errors = Record<keyof FormData, string[]> & {
+    global?: { msg: string };
+};
 
 const Login = () => {
     const [isPending, startTransition] = useTransition();
@@ -55,8 +57,10 @@ const Login = () => {
         if (!validation()) return;
         startTransition(async () => {
             const response = await auth.loginAction(formData);
-            if (response.code) {
+            if (response.code === 200) {
                 setFormData({ email: "", password: "" })
+            } else {
+                setError({ global: { msg: response.msg } })
             }
         });
 
@@ -97,6 +101,7 @@ const Login = () => {
                             onClick={(event) => { handleSubmit(event) }}
                             loading={isPending}
                         />
+                        {error.global ? <Alert danger={error.global?.msg} /> : ''}
                     </form>
                 </div>
                 {auth.alertMsg && (<div className="px-6 py-4">

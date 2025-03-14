@@ -11,7 +11,6 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { UserInfo } from '@/utils/types/UserInfoType';
 import { useAdminContext } from '@/features/authentication/hooks/useAdminContext';
-import { loggedInAdmin$ } from '@/features/authentication/components/AdminAuthProvider';
 
 
 type Props = {
@@ -49,53 +48,24 @@ const Header = () => {
     //     setSignupDialog(false);
     // }
 
-    // useEffect(() => {
-    //     const fetchUserSchema = async () => {
-    //         const userSchema = await userAuth.setUserSchema();
-    //         if (userSchema) {
-    //             const subscription = userSchema.userToken.findOne().$.subscribe((user) => {
-    //                 if (user) {
-    //                     setLoggedInUser(user);
-    //                 }
-    //             });
-
-    //             return () => subscription.unsubscribe();
-    //         }
-    //     };
-    //     fetchUserSchema();
-    // }, [localDb?.db]);
+    const checkAuthStatus = async () => {
+        try {
+            const response = await fetch('/api/auth/admin/status');
+            const data = await response.json();
+            if (data.code === 200) {
+                setAdminLoggedIn(data.isAuthenticated);
+                setLoggedInUser(data.msg);
+            }
+        } catch (error) {
+            console.error('Error checking authentication status:', error);
+        }
+    };
 
     useEffect(() => {
-        debugger;
-        loggedInAdmin$.subscribe((d: UserInfo) => {
-            setLoggedInUser(d);
-        })
+        if (pathName === "/dashboard") {
+            checkAuthStatus();
+        }
 
-
-        const checkAuthStatus = async () => {
-            try {
-                const response = await fetch('/api/auth/status');
-                const data = await response.json();
-                if (data.code === 200) {
-                    setAdminLoggedIn(data.isAuthenticated)
-                }
-                // setIsAuthenticated(data.isAuthenticated);
-            } catch (error) {
-                console.error('Error checking authentication status:', error);
-            }
-        };
-
-        checkAuthStatus();
-
-        setLoggedInUser({
-            accessToken: "data.userToken",
-            displayName: "userObject.user.displayName",
-            email: "userObject.user.email",
-            emailVerified: true,
-            phoneNumber: "",
-            photoURL: "/images/default-avatar.svg",
-            uId: "string"
-        })
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setProfileDropdown(false);

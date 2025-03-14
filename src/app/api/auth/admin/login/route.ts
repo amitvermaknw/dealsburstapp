@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
         const result: AxiosResponse<{ token: string, msg?: string }> = await axios.post<{ token: string, msg?: string }>(`${baseUrl}/login`, formData);
         if (result.status === 200) {
             const tokenData = jwt.sign(
-                { userName: 'Admin', role: 'admin', email: formData.email, token: result.data.token },
+                { displayName: 'Admin', role: 'admin', email: formData.email, token: result.data.token },
                 process.env.JWT_SECRET!,
                 { expiresIn: "7d" }
             );

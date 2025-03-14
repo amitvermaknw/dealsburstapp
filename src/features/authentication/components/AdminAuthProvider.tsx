@@ -43,7 +43,9 @@ const AdminAuthProvider = ({ children }: LayoutProps) => {
             if (isErrorResponse(response)) {
                 setAlert(response.error as string);
                 toast.error(response.error);
-                return ({ code: 500, msg: "error" });
+
+                toast.error("test data");
+                return ({ code: 500, msg: response.error });
             }
 
             const adminInfo: UserInfo = {
@@ -52,10 +54,11 @@ const AdminAuthProvider = ({ children }: LayoutProps) => {
                 emailVerified: true,
                 uId: (Math.floor(Math.random() * 200)).toString()
             }
+            router.push("/dashboard");
 
             loggedInAdmin.next(adminInfo);
             setUser(adminInfo);
-            router.push("/dashboard");
+
             return ({ code: 200, msg: "success" });
 
         } catch (err) {

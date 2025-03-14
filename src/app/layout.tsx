@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import AdminAuthProvider from "@/features/authentication/components/AdminAuthProvider";
+import { ToastContainer } from 'react-toastify';
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +41,18 @@ export default function RootLayout({
         <Header />
         <div className='md:container md:mx-auto'>
           <AdminAuthProvider>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
             {children}
           </AdminAuthProvider>
         </div>
