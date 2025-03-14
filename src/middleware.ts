@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
@@ -11,24 +12,34 @@ export async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL("/login", req.url))
     }
 
-    if (pathname.startsWith("/api/") && !pathname.startsWith("/api/auth/admin/login")) {
-        const token = req.headers.get("Authorization");
-
-
-        if (!token) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (pathname.startsWith("/api/auth/status") && !session) {
+        const auth = (await cookies()).get("admin_session")
+        if (auth) {
+            return NextResponse.json({ code: 200, isAuthenticated: true }, { status: 200 });
+        } else {
+            return NextResponse.json({ code: 500, error: "Unauthorized" }, { status: 401 });
         }
 
-        // const modifiedHeaders = new Headers(req.headers);
-        // modifiedHeaders.set("X-Custom-Header", "middleware-intercepted");
-
-        // return NextResponse.next({
-        //     request: {
-        //         headers: modifiedHeaders,
-        //     },
-        // });
-
     }
+
+
+
+    // if (pathname.startsWith("/api/") && !pathname.startsWith("/api/auth/admin/login")) {
+    //     const token = req.headers.get("Authorization");
+    //     if (!token) {
+    //         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    //     }
+
+    //     // const modifiedHeaders = new Headers(req.headers);
+    //     // modifiedHeaders.set("X-Custom-Header", "middleware-intercepted");
+
+    //     // return NextResponse.next({
+    //     //     request: {
+    //     //         headers: modifiedHeaders,
+    //     //     },
+    //     // });
+
+    // }
 
     return NextResponse.next();
 }

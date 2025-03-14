@@ -51,15 +51,12 @@ const Login = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleSubmit = async (e: any) => {
-        debugger
         e.preventDefault();
-
         if (!validation()) return;
-
         startTransition(async () => {
             const response = await auth.loginAction(formData);
             if (response.code) {
-                // setFormData({ email: "", password: "" })
+                setFormData({ email: "", password: "" })
             }
         });
 

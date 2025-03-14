@@ -6,16 +6,23 @@ import { LayoutProps, ResponseType } from "@/utils/types/CommonTypes";
 import { useRouter } from "next/navigation";
 //import useUrlAuth from "../../../hooks/useUrlAuth";
 import { UserInfo } from '@/utils/types/UserInfoType';
+import { loggedInAdmin } from "../util/helper";
+// import { BehaviorSubject } from "rxjs";
+
+const defaultUser = {
+    displayName: '',
+    email: '',
+    emailVerified: false,
+    uId: ''
+}
 
 const defaultValues = {
-    user: '',
+    user: defaultUser,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     loginAction: (_data: { email: string, password: string }): Promise<ResponseType> => { return Promise.resolve({ code: 200, msg: "default" }) },
     logOut: () => { },
     alertMsg: ''
 };
-
-
 
 function isErrorResponse(response: { code: number; msg: string; } | { error: string }): response is { error: string } {
     return (response as { error: string }).error !== undefined;
@@ -25,7 +32,7 @@ type AuthenticatedUser = typeof defaultValues
 export const AdminAuthContext = createContext<AuthenticatedUser>(defaultValues);
 
 const AdminAuthProvider = ({ children }: LayoutProps) => {
-    const [user, setUser] = useState<string>('');
+    const [user, setUser] = useState<UserInfo>(defaultUser);
     const [alertMsg, setAlert] = useState<string>('')
     const router = useRouter();
     const [authenticate, removeToken] = useAdminAuth();
@@ -39,15 +46,16 @@ const AdminAuthProvider = ({ children }: LayoutProps) => {
                 return ({ code: 500, msg: "error" });
             }
 
-            const loggedInUser: UserInfo = {
+            const adminInfo: UserInfo = {
                 displayName: 'Admin',
                 email: data.email,
                 emailVerified: true,
                 uId: (Math.floor(Math.random() * 200)).toString()
             }
 
-            sessionStorage.setItem("loggedInUser", JSON.stringify(loggedInUser))
-            router.push("/dashboard")
+            loggedInAdmin.next(adminInfo);
+            setUser(adminInfo);
+            router.push("/dashboard");
             return ({ code: 200, msg: "success" });
 
         } catch (err) {
@@ -63,7 +71,7 @@ const AdminAuthProvider = ({ children }: LayoutProps) => {
     }
 
     const logOut = () => {
-        setUser('');
+        setUser(defaultUser);
         localStorage.removeItem("token");
         removeToken()
         router.push("/login");
@@ -78,3 +86,5 @@ const AdminAuthProvider = ({ children }: LayoutProps) => {
 }
 
 export default AdminAuthProvider;
+
+export const loggedInAdmin$ = loggedInAdmin.asObservable(); 

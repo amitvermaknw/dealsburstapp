@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { UserInfo } from '@/utils/types/UserInfoType';
 import { useAdminContext } from '@/features/authentication/hooks/useAdminContext';
+import { loggedInAdmin$ } from '@/features/authentication/components/AdminAuthProvider';
 
 
 type Props = {
@@ -29,6 +30,7 @@ const Header = () => {
     const navigate = useRouter();
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const pathName = usePathname();
+    const [adminLoggedIn, setAdminLoggedIn] = useState(false);
 
     // const localDb = useContext(DbContext)
 
@@ -64,10 +66,19 @@ const Header = () => {
     // }, [localDb?.db]);
 
     useEffect(() => {
+        debugger;
+        loggedInAdmin$.subscribe((d: UserInfo) => {
+            setLoggedInUser(d);
+        })
+
+
         const checkAuthStatus = async () => {
             try {
                 const response = await fetch('/api/auth/status');
                 const data = await response.json();
+                if (data.code === 200) {
+                    setAdminLoggedIn(data.isAuthenticated)
+                }
                 // setIsAuthenticated(data.isAuthenticated);
             } catch (error) {
                 console.error('Error checking authentication status:', error);
@@ -199,19 +210,19 @@ const Header = () => {
                                     >
                                         Subscribe
                                     </Link>
-                                    <Link
+                                    {/* <Link
                                         href="/login"
                                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     >
                                         Login
-                                    </Link>
-                                    {/* {adminAuth.token ? '' : <Link
-                                        to="/login"
+                                    </Link> */}
+                                    {!adminLoggedIn ? '' : <Link
+                                        href="/login"
                                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     >
                                         Login
-                                    </Link>} */}
-                                    {/* {adminAuth.token ? <> <Link
+                                    </Link>}
+                                    {adminLoggedIn ? <> <Link
                                         href="/dashboard"
                                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     >
@@ -220,7 +231,7 @@ const Header = () => {
                                         <button onClick={() => adminAuth.logOut()} className="btn-submit text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                             Logout
                                         </button> </>
-                                        : ''} */}
+                                        : ''}
                                 </div>
                             </div>
                         </div>
