@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL("/login", req.url))
     }
 
-    if (pathname.startsWith("/api/")) {
+    if (pathname.startsWith("/api/") && !pathname.startsWith("/api/auth/admin/login")) {
         const token = req.headers.get("Authorization");
 
 

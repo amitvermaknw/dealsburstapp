@@ -1,5 +1,5 @@
 export type UserInfo = {
-    accessToken: string,
+    accessToken?: string,
     displayName: string,
     email: string,
     emailVerified: boolean,

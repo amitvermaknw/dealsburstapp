@@ -1,12 +1,13 @@
+'use client';
 import { createContext, useState } from "react"
 import { useAdminAuth } from "../hooks/useAdminAuth";
 import { toast } from "react-toastify";
 import { LayoutProps, ResponseType } from "@/utils/types/CommonTypes";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 //import useUrlAuth from "../../../hooks/useUrlAuth";
+import { UserInfo } from '@/utils/types/UserInfoType';
 
 const defaultValues = {
-    token: '',
     user: '',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     loginAction: (_data: { email: string, password: string }): Promise<ResponseType> => { return Promise.resolve({ code: 200, msg: "default" }) },
@@ -25,7 +26,6 @@ export const AdminAuthContext = createContext<AuthenticatedUser>(defaultValues);
 
 const AdminAuthProvider = ({ children }: LayoutProps) => {
     const [user, setUser] = useState<string>('');
-    const [token, setToken] = useState<string>(localStorage.getItem('token') as string);
     const [alertMsg, setAlert] = useState<string>('')
     const router = useRouter();
     const [authenticate, removeToken] = useAdminAuth();
@@ -35,17 +35,28 @@ const AdminAuthProvider = ({ children }: LayoutProps) => {
             const response: { code: number; msg: string; } | { error: string } = await authenticate(data);
             if (isErrorResponse(response)) {
                 setAlert(response.error as string);
+                toast.error(response.error);
                 return ({ code: 500, msg: "error" });
             }
-            setToken(response.msg as string)
+
+            const loggedInUser: UserInfo = {
+                displayName: 'Admin',
+                email: data.email,
+                emailVerified: true,
+                uId: (Math.floor(Math.random() * 200)).toString()
+            }
+
+            sessionStorage.setItem("loggedInUser", JSON.stringify(loggedInUser))
             router.push("/dashboard")
             return ({ code: 200, msg: "success" });
 
         } catch (err) {
             if (err instanceof Error) {
                 setAlert(err.message as string);
+                toast.error(err.message);
                 return ({ code: 500, msg: "error" });
             }
+            toast.error("Error while login");
             return ({ code: 500, msg: "error" });
 
         }
@@ -53,7 +64,6 @@ const AdminAuthProvider = ({ children }: LayoutProps) => {
 
     const logOut = () => {
         setUser('');
-        setToken('');
         localStorage.removeItem("token");
         removeToken()
         router.push("/login");
@@ -61,7 +71,7 @@ const AdminAuthProvider = ({ children }: LayoutProps) => {
     }
 
     return (
-        <AdminAuthContext.Provider value={{ token, user, loginAction, logOut, alertMsg }}>
+        <AdminAuthContext.Provider value={{ user, loginAction, logOut, alertMsg }}>
             {children}
         </AdminAuthContext.Provider>
     )

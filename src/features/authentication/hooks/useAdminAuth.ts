@@ -5,6 +5,9 @@ export const useAdminAuth = () => {
         try {
             const result = await fetch("/api/auth/admin/login", {
                 method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify(formData)
             });
 

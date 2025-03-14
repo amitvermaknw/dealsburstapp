@@ -7,7 +7,7 @@ const baseUrl = process.env.NODE_ENV === 'development' ? process.env.DEALSBURST_
 
 export async function POST(req: NextRequest) {
     try {
-        const { formData } = await req.json();
+        const formData = await req.json();
         const result: AxiosResponse<{ token: string, msg?: string }> = await axios.post<{ token: string, msg?: string }>(`${baseUrl}/login`, formData);
         if (result.status === 200) {
             (await cookies()).set({
@@ -36,6 +36,11 @@ export async function POST(req: NextRequest) {
         }
 
     } catch (error) {
+        if (error instanceof Error) {
+            return NextResponse.json({ status: 401, error: error.message })
+        }
+
         return NextResponse.json({ status: 401, error: error })
+
     }
 }

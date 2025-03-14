@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { Transition } from '@headlessui/react'
 import Link from 'next/link';
-// import { useAdminContext } from '../features/authentication/hooks/useAdminContext';
 // import SignupWithGoogleDialog from '../features/users/signup/component/SignupWithGoogleDialog';
 import { useUserContext } from '../../features/authentication/hooks/useUserContext';
 // import { DbContext } from "../providers/DBProvider";
@@ -11,6 +10,7 @@ import { useUserContext } from '../../features/authentication/hooks/useUserConte
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { UserInfo } from '@/utils/types/UserInfoType';
+import { useAdminContext } from '@/features/authentication/hooks/useAdminContext';
 
 
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
 const Header = () => {
 
     const [isOpen, setIsOpen] = useState(false);
-    // const adminAuth = useAdminContext();
+    const adminAuth = useAdminContext();
     const userAuth = useUserContext();
     const [profileDropdown, setProfileDropdown] = useState(false);
     // const [signUpDialog, setSignupDialog] = useState(false);
@@ -64,6 +64,18 @@ const Header = () => {
     // }, [localDb?.db]);
 
     useEffect(() => {
+        const checkAuthStatus = async () => {
+            try {
+                const response = await fetch('/api/auth/status');
+                const data = await response.json();
+                // setIsAuthenticated(data.isAuthenticated);
+            } catch (error) {
+                console.error('Error checking authentication status:', error);
+            }
+        };
+
+        checkAuthStatus();
+
         setLoggedInUser({
             accessToken: "data.userToken",
             displayName: "userObject.user.displayName",
@@ -186,6 +198,12 @@ const Header = () => {
                                         onClick={() => "props.onSubscribe()"}
                                     >
                                         Subscribe
+                                    </Link>
+                                    <Link
+                                        href="/login"
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Login
                                     </Link>
                                     {/* {adminAuth.token ? '' : <Link
                                         to="/login"

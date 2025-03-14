@@ -7,7 +7,7 @@ import { useAdminContext } from "../hooks/useAdminContext";
 import Alert from "../../../components/ui/Alert";
 import { toast } from 'react-toastify';
 import SignInWithGoogle from "./SignInWithGoogle";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import * as z from 'zod';
 
 const schema = z.object({
@@ -51,6 +51,7 @@ const Login = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleSubmit = async (e: any) => {
+        debugger
         e.preventDefault();
 
         if (!validation()) return;
@@ -58,7 +59,7 @@ const Login = () => {
         startTransition(async () => {
             const response = await auth.loginAction(formData);
             if (response.code) {
-                setFormData({ email: "", password: "" })
+                // setFormData({ email: "", password: "" })
             }
         });
 
@@ -96,7 +97,7 @@ const Login = () => {
 
                         <Button
                             name="Login"
-                            onClick={() => { }}
+                            onClick={(event) => { handleSubmit(event) }}
                             loading={isPending}
                         />
                     </form>
@@ -104,7 +105,7 @@ const Login = () => {
                 {auth.alertMsg && (<div className="px-6 py-4">
                     {toast(auth.alertMsg)}
                 </div>)}
-                <SignInWithGoogle />
+                {/* <SignInWithGoogle /> */}
             </div>
 
         </div>
