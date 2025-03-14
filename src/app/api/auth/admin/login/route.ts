@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import axios, { AxiosResponse } from "axios";
-
+import jwt from "jsonwebtoken";
 
 const baseUrl = process.env.NODE_ENV === 'development' ? process.env.DEALSBURST_SERVICE_LOCAL : process.env.DEALSBURST_SERVICE_PROD;
 
@@ -10,9 +10,14 @@ export async function POST(req: NextRequest) {
         const formData = await req.json();
         const result: AxiosResponse<{ token: string, msg?: string }> = await axios.post<{ token: string, msg?: string }>(`${baseUrl}/login`, formData);
         if (result.status === 200) {
+            const tokenData = jwt.sign(
+                { userName: 'Admin', role: 'admin', email: formData.email, token: result.data.token },
+                process.env.JWT_SECRET!,
+                { expiresIn: "7d" }
+            );
             (await cookies()).set({
                 name: "admin_session",
-                value: result.data.token,
+                value: tokenData,
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
                 maxAge: 60 * 60 * 27 * 7,
